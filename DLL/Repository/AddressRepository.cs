@@ -19,9 +19,20 @@ namespace DLL.Repository
 
         public async override Task<IReadOnlyCollection<Address>> FindByConditionAsync(Expression<Func<Address, bool>> predicat)
         {
-            return await this.entities.Include(adr => adr.UserInfo).
-                Where(predicat).ToListAsync().ConfigureAwait(false);
+            return await this.entities
+                .Include(adr => adr.UserInfo)
+                .Where(predicat)
+                .ToListAsync()
+                .ConfigureAwait(false);
+        }
+
+        public async override Task<IReadOnlyCollection<Address>> GetAllAsync()
+        {
+            return await this.entities
+                .Include(adr => adr.UserInfo)
+                .ToListAsync()
+                .ConfigureAwait(false);
         }
     }
-    }
+    
 }

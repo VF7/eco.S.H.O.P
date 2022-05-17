@@ -25,10 +25,23 @@ namespace DLL.Repository
 
         public override async Task<IReadOnlyCollection<Order>> FindByConditionAsync(Expression<Func<Order, bool>> predicat)
         {
-            return await this.entities.Include(ord=>ord.Buyer).
-                Include(ord=>ord.Address).
-                Include(ord => ord.Product).
-                Where(predicat).ToListAsync().ConfigureAwait(false);
+            return await this.entities
+                .Include(ord=>ord.Buyer)
+                .Include(ord=>ord.Address)
+                .Include(ord => ord.Product)
+                .Where(predicat)
+                .ToListAsync()
+                .ConfigureAwait(false);
+        }
+
+        public async override Task<IReadOnlyCollection<Order>> GetAllAsync()
+        {
+            return await this.entities
+                .Include(ord => ord.Buyer)
+                .Include(ord => ord.Address)
+                .Include(ord => ord.Product)
+                .ToListAsync()
+                .ConfigureAwait(false);
         }
     }
 }
