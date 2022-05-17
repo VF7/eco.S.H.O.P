@@ -13,27 +13,35 @@ namespace DLL.Repository.Interfaces
 {
     public abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : class
     {
+        public BaseRepository(ECOshopContext ecoShopContext)
+        {
+            _ecoShopContext = ecoShopContext;
+        }
+
         protected ECOshopContext _ecoShopContext;
 
         private DbSet<TEntity> _entities;
         protected DbSet<TEntity> entities => this._entities ??= _ecoShopContext.Set<TEntity>();
 
-        public async Task<IReadOnlyCollection<TEntity>> FindByConditionAsync(Expression<Func<TEntity, bool>> predicat)
+
+
+        public virtual async Task<IReadOnlyCollection<TEntity>> FindByConditionAsync(Expression<Func<TEntity, bool>> predicat)
             => await this.entities.Where(predicat).ToListAsync().ConfigureAwait(false);
 
-        public async Task<IReadOnlyCollection<TEntity>> GetAllAsync()
+        public virtual async Task<IReadOnlyCollection<TEntity>> GetAllAsync()
             => await this.entities.ToListAsync().ConfigureAwait(false);
 
-        public async Task<OperationDetail> CreateAsync(TEntity entity)
+        public virtual async Task<OperationDetail> CreateAsync(TEntity entity)
         {
             try
             {
                 await entities.AddAsync(entity).ConfigureAwait(false);
                 return new OperationDetail() { Message = "Created", IsCompleted = true };
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Log.Error(e)
+                Log.Error(ex, "Create Fatal Exception");
+                return new OperationDetail() { Message = "Created Fatal Error", IsCompleted = false };
             }
         }
     }
