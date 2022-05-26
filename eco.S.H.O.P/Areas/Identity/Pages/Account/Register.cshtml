@@ -27,6 +27,54 @@
                 <label asp-for="Input.ConfirmPassword"></label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
+            <div class="form-floating">
+                <input asp-for="Input.Name" class="form-control" autocomplete="Name" aria-required="true" />
+                <label asp-for="Input.Name"></label>
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+            
+            <div class="form-floating">
+                <input asp-for="Input.Surname" class="form-control" autocomplete="Surname" aria-required="true" />
+                <label asp-for="Input.Surname"></label>
+                <span asp-validation-for="Input.Surname" class="text-danger"></span>
+            </div>
+            
+            <div class="form-floating">
+                <input asp-for="Input.City" class="form-control" autocomplete="City" aria-required="true" />
+                <label asp-for="Input.City"></label>
+                <span asp-validation-for="Input.City" class="text-danger"></span>
+            </div>
+            
+            <div class="form-floating">
+                <input asp-for="Input.Street" class="form-control" autocomplete="Street" aria-required="true" />
+                <label asp-for="Input.Street"></label>
+                <span asp-validation-for="Input.Street" class="text-danger"></span>
+            </div>
+            
+            <div class="form-floating">
+                <input asp-for="Input.HomeNumber" class="form-control" autocomplete="HomeNumber" aria-required="true" />
+                <label asp-for="Input.HomeNumber"></label>
+                <span asp-validation-for="Input.HomeNumber" class="text-danger"></span>
+            </div>
+            
+            <div class="form-floating">
+                <input asp-for="Input.AppartmentNumber" class="form-control" autocomplete="AppartmentNumber" aria-required="true" />
+                <label asp-for="Input.AppartmentNumber"></label>
+                <span asp-validation-for="Input.AppartmentNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating">
+                <input asp-for="Input.PhoneNumber" class="form-control" autocomplete="phoneNumber" aria-required="true" />
+                <label asp-for="Input.PhoneNumber"></label>
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            </div>
+            
+            <div class="form-floating">
+                <input asp-for="Input.Photo" class="form-control" autocomplete="Enter Photo Path" aria-required="true" />
+                <label asp-for="Input.Photo"></label>
+                <span asp-validation-for="Input.Photo" class="text-danger"></span>
+            </div>
+
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>
     </div>

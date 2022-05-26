@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace eco.S.H.O.P.Migrations
+namespace DLL.Migrations
 {
     [DbContext(typeof(ECOshopContext))]
-    [Migration("20220516151212_FirstLoadMigration")]
-    partial class FirstLoadMigration
+    [Migration("20220524163739_NewMigration")]
+    partial class NewMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -96,6 +96,9 @@ namespace eco.S.H.O.P.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
                     b.Property<string>("BuyerId")
                         .HasColumnType("nvarchar(450)");
 
@@ -110,6 +113,8 @@ namespace eco.S.H.O.P.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
 
                     b.HasIndex("BuyerId");
 
@@ -523,9 +528,17 @@ namespace eco.S.H.O.P.Migrations
 
             modelBuilder.Entity("Domain.Models.Order", b =>
                 {
+                    b.HasOne("Domain.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Domain.Models.User", "Buyer")
                         .WithMany("Orders")
                         .HasForeignKey("BuyerId");
+
+                    b.Navigation("Address");
 
                     b.Navigation("Buyer");
                 });

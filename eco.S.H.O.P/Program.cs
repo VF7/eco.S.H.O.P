@@ -5,22 +5,30 @@ using Microsoft.EntityFrameworkCore;
 using DLL.Context;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'ECOshopContextConnection' not found.");
 
 builder.Services.AddDbContext<ECOshopContext>(options =>
     options.UseSqlServer(connectionString));;
 
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ECOshopContext>();;
+
+
+// Add services to the container.
+
+
+builder.Services.AddDbContext<ECOshopContext>(options =>
+    options.UseSqlServer(connectionString));;
+
+var identityBuilder = builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ECOshopContext>();
 
 
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-var identityBuilder = builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true);
-Configuration.ConfigurationService(builder.Services, connectionString, identityBuilder); // Config Business
+
+BLL.Infrastructure.Configuration.ConfigurationService(builder.Services, connectionString, identityBuilder); // Config Business
+eco.S.H.O.P.Infrastructure.Configuration.ConfigurationService(identityBuilder);
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

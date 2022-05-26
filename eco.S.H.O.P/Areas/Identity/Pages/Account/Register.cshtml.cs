@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using BLL.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Domain.Models;
@@ -30,13 +31,15 @@ namespace eco.S.H.O.P.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<User> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly UserService _userService;
 
         public RegisterModel(
             UserManager<User> userManager,
             IUserStore<User> userStore,
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            UserService userService)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +47,7 @@ namespace eco.S.H.O.P.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _userService = userService;
         }
 
         /// <summary>
@@ -99,28 +103,39 @@ namespace eco.S.H.O.P.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [DataType(DataType.Text)]
+            [Display(Name = "Name")]
             public string Name { get; set; }
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Surname")]
             public string Surname { get; set; }
-            public string PhotoPath { get; set; }
-            [Required]
-            [DataType(DataType.PhoneNumber)]
-            public string PhoneNumber { get; set; }
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+
+            [DataType(DataType.Text)]
+            [Display(Name = "City")]
             public string City { get; set; }
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Street")]
             public string Street { get; set; }
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+
+            [DataType(DataType.Text)]
+            [Display(Name = "HomeNumber")]
             public string HomeNumber { get; set; }
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+
+            
+            [Display(Name = "AppartmentNumber")]
             public int AppartmentNumber { get; set; }
+
+            [DataType(DataType.PhoneNumber)]
+            [Display(Name = "Enter Phone Number")]
+            public string PhoneNumber { get; set; }
+
+            [DataType(DataType.ImageUrl)]
+            [Display(Name = "Photo")]
+            public string Photo { get; set; }
+
+
         }
 
 
@@ -140,6 +155,20 @@ namespace eco.S.H.O.P.Areas.Identity.Pages.Account
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                var userInfo = new UserInfo();
+
+                user.UserInfo = new UserInfo()
+                {
+                    Name = Input.Name,
+                    Surname =Input.Surname,
+                    City = Input.City,
+                    Street = Input.Street,
+                    HomeNumber = Input.HomeNumber,
+                    AppartmentNumber = Input.AppartmentNumber,
+                    PhoneNumber = Input.PhoneNumber,
+                    Photo = new Photo {PhotoPath = Input.Photo } 
+                };
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)

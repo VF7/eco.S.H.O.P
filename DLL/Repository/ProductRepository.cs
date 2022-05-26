@@ -41,5 +41,38 @@ namespace DLL.Repository
                 .ToListAsync()
                 .ConfigureAwait(false);
         }
+
+        public async Task AddToOrderAsync(Product product, int orderId)
+        {
+            product.OrderId = orderId;
+            base._ecoShopContext.Entry(product).State = EntityState.Modified;
+            base._ecoShopContext.SaveChanges();
+        }
+        public async Task ChangeProductAsync(Product newProduct, int oldProductId)
+        {
+            var product = base._ecoShopContext.Products.Find(oldProductId);
+            product.Category = newProduct.Category;
+            product.CategoryId = newProduct.CategoryId;
+            product.Photos = newProduct.Photos;
+            product.Reviews = newProduct.Reviews;
+            product.Employee = newProduct.Employee;
+            product.EmployeeId = newProduct.EmployeeId;
+            product.Order = newProduct.Order;
+            product.Description = newProduct.Description;
+            product.Name = newProduct.Name;
+            product.Price = newProduct.Price;
+
+            base._ecoShopContext.Entry(product).State = EntityState.Modified;
+            base._ecoShopContext.SaveChanges();
+        }
+        public async Task RemoveProductFromOrderAsync(int orderId, int removeProductId)
+        {
+            base._ecoShopContext.Orders.Find(orderId).Product.Remove(base._ecoShopContext.Orders.Find(orderId).Product.Where(x=>x.Id==removeProductId).First());
+        }
+
+        public async Task CompleteOrderAsync(int userId, int orderId)
+        {
+            
+        }
     }
 }

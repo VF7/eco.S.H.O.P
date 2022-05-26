@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace eco.S.H.O.P.Migrations
+namespace DLL.Migrations
 {
-    public partial class FirstLoadMigration : Migration
+    public partial class NewMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -178,6 +178,7 @@ namespace eco.S.H.O.P.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AddressId = table.Column<int>(type: "int", nullable: false),
                     BuyerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     SendData = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeliveryData = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -185,6 +186,12 @@ namespace eco.S.H.O.P.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_Addresses_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Addresses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Orders_AspNetUsers_BuyerId",
                         column: x => x.BuyerId,
@@ -384,6 +391,11 @@ namespace eco.S.H.O.P.Migrations
                 column: "UserInfoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Orders_AddressId",
+                table: "Orders",
+                column: "AddressId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_BuyerId",
                 table: "Orders",
                 column: "BuyerId");
@@ -474,11 +486,15 @@ namespace eco.S.H.O.P.Migrations
                 column: "UserInfoId",
                 principalTable: "UserInfos",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.NoAction);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Addresses_UserInfos_UserInfoId",
+                table: "Addresses");
+
             migrationBuilder.DropForeignKey(
                 name: "FK_AspNetUsers_UserInfos_UserInfoId",
                 table: "AspNetUsers");
@@ -486,9 +502,6 @@ namespace eco.S.H.O.P.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_Employees_UserInfos_UserInfoId",
                 table: "Employees");
-
-            migrationBuilder.DropTable(
-                name: "Addresses");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -528,6 +541,9 @@ namespace eco.S.H.O.P.Migrations
 
             migrationBuilder.DropTable(
                 name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "Addresses");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
