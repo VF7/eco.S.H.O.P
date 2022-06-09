@@ -11,6 +11,7 @@ namespace eco.S.H.O.P.Infrastructure
             //Services
             builder.Services.AddTransient<ProductService>();
             builder.Services.AddTransient<UserService>();
+            builder.Services.AddTransient<ProductService>();
  
         }
     }

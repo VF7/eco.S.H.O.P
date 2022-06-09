@@ -36,6 +36,7 @@ namespace DLL.Repository.Interfaces
             try
             {
                 await entities.AddAsync(entity).ConfigureAwait(false);
+                await _ecoShopContext.SaveChangesAsync();
                 return new OperationDetail() { Message = "Created", IsCompleted = true };
             }
             catch (Exception ex)

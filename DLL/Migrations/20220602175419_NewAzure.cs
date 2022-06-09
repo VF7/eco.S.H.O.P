@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DLL.Migrations
 {
-    public partial class NewMigration : Migration
+    public partial class NewAzure : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

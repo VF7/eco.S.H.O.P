@@ -9,6 +9,8 @@ namespace BLL.Services.Interfaces
 {
     public interface IProductService
     {
+        IAsyncResult Index();
+        Task<IAsyncResult> AddProductAsync(Product product, int employeeId);
        // Task<List<Product>> FindByIdAsync(int Id);
     }
 }

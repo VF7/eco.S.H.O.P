@@ -27,6 +27,8 @@ namespace BLL.Infrastructure
            builder.Services.AddTransient<UserInfoRepository>();
            builder.Services.AddTransient<EmployeeRepository>();
            builder.Services.AddTransient<ProductRepository>();
+           builder.Services.AddTransient<OrderRepository>();
+           builder.Services.AddTransient<ReviewRepository>();
         }
     }
 }

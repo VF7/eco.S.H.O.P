@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DLL.Migrations
 {
     [DbContext(typeof(ECOshopContext))]
-    [Migration("20220524163739_NewMigration")]
-    partial class NewMigration
+    [Migration("20220602175419_NewAzure")]
+    partial class NewAzure
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
