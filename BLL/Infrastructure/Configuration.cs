@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DLL.Repository;
+using BLL.Services.Interfaces;
+using BLL.Services;
 
 namespace BLL.Infrastructure
 {
@@ -21,7 +23,6 @@ namespace BLL.Infrastructure
 
            builder.AddEntityFrameworkStores<ECOshopContext>();
 
-
            //Repository
            builder.Services.AddTransient<UserRepository>();
            builder.Services.AddTransient<UserInfoRepository>();
@@ -29,6 +30,12 @@ namespace BLL.Infrastructure
            builder.Services.AddTransient<ProductRepository>();
            builder.Services.AddTransient<OrderRepository>();
            builder.Services.AddTransient<ReviewRepository>();
+
+
+           builder.Services.AddTransient<IProductService, ProductService>();
+           builder.Services.AddTransient<IUserService, UserService>();
+
+
         }
     }
 }

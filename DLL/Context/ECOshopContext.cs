@@ -11,9 +11,7 @@ namespace DLL.Context
 {
     public class ECOshopContext: IdentityDbContext
     {
-        public ECOshopContext(DbContextOptions<ECOshopContext> options)
-            : base(options)
-        {
+        public ECOshopContext(DbContextOptions<ECOshopContext> options) : base(options){
         }
 
         public DbSet<User> Users { get; set; }
